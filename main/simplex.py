@@ -4,6 +4,11 @@ from main.matrix_helper import next_round_r, pivot, loc_pivot_row, next_round, l
 
 
 def maximize(tableau):
+    """
+    Maximizes the operational problem
+    :param tableau
+    :return: Dictionary with the variable values and the result
+    """
     while next_round_r(tableau):
         tableau = pivot(loc_pivot_row(tableau)[0], loc_pivot_row(tableau)[1], tableau)
     while next_round(tableau):
@@ -27,6 +32,11 @@ def maximize(tableau):
 
 
 def minimize(tableau):
+    """
+    Minimizes the operational problem through inverting the tableau to a maximizing problem.
+    :param tableau
+    :return: Dictionary with the variable values and the result
+    """
     tableau = convert_to_min(tableau)
     val = maximize(tableau)
     val['result'] = val['result'] * -1
@@ -34,12 +44,14 @@ def minimize(tableau):
 
 
 def convert_to_min(tableau):
+    """Converts a tableau from minimizing to maximizing problem"""
     tableau[-1, :-2] = [-1 * i for i in tableau[-1, :-2]]
     tableau[-1, -1] = -1 * tableau[-1, -1]
     return tableau
 
 
 def gen_var(table):
+    """Generates an array with the variable names"""
     lc = len(table[0, :])
     lr = len(table[:, 0])
     var = lc - lr - 1
