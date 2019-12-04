@@ -67,7 +67,7 @@ class MatrixHelperTest(unittest.TestCase):
 
     def test_convert_string_to_constraint_lower_or_equal(self):
         # arrange
-        str_constraint = '1, 1, <=, 1'
+        str_constraint = '1,1,<=,1'
 
         # act
         result = matrix_helper.convert_string_to_constraint(str_constraint)
@@ -77,9 +77,9 @@ class MatrixHelperTest(unittest.TestCase):
 
         self.assertEqual(expected.all(), result.all())
 
-    def test_convert_string_to_constraint_higher_or_equal(self):
+    def test_convert_string_to_constraint_greater_or_equal(self):
         # arrange
-        str_constraint = '1, 1, >=, 1'
+        str_constraint = '1,1,>=,1'
 
         # act
         result = matrix_helper.convert_string_to_constraint(str_constraint)
@@ -94,15 +94,34 @@ class MatrixHelperTest(unittest.TestCase):
         var_count = 2
         constraint_count = 4
         tableau = np.zeros(((constraint_count + 1), (var_count + constraint_count + 2)))
-        constraint = '1, 1, >=, 1'
+        constraint = '1,1,>=,1'
 
         # act
         result = matrix_helper.insert_constraint(tableau, constraint)
 
         # assert
         expected = np.array(
-            [[0, 1, 1, 1, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
+            [[0, -1, -1, 1, 0, 0, 0, -1], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
+
+        self.assertEqual(expected.all(), result.all())
+
+    def test_if_insert_obj_fun_inserts_objective_function(self):
+        # arrange
+        var_count = 2
+        constraint_count = 4
+        tableau = np.array(
+            [[0, -1, -1, 1, 0, 0, 0, -1], [-1, 0, 0, 0, 0, 0, 0, 0], [0, 2, 0, 0, 0, 0, 0, 0], [0, 0, 3, 0, 0, 0, 0, 0],
+             [0, 0, 0, 4, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]])
+        obj_fun = '1,-1,0'
+
+        # act
+        result = matrix_helper.insert_obj_fun(tableau, obj_fun)
+
+        # assert
+        expected = np.array(
+            [[0, -1, -1, 1, 0, 0, 0, -1], [-1, 0, 0, 0, 0, 0, 0, 0], [0, 2, 0, 0, 0, 0, 0, 0], [0, 0, 3, 0, 0, 0, 0, 0],
+             [0, 0, 0, 4, 0, 0, 0, 0], [-1, 1, 0, 0, 0, 0, 1, 0]])
 
         self.assertEqual(expected.all(), result.all())
 
