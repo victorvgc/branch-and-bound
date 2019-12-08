@@ -1,61 +1,87 @@
-import numpy as np
-
-from main.matrix_helper import next_round_r, pivot, loc_pivot_row, next_round, loc_pivot_col
+from main import matrix_helper
 
 
-def maximize(tableau):
+def maximize(tableau, var, s_var, pivot_vars=[]):
     """
-    Maximizes the operational problem
-    :param tableau
-    :return: Dictionary with the variable values and the result
-    """
-    while next_round_r(tableau):
-        tableau = pivot(loc_pivot_row(tableau)[0], loc_pivot_row(tableau)[1], tableau)
-    while next_round(tableau):
-        tableau = pivot(loc_pivot_col(tableau)[0], loc_pivot_col(tableau)[1], tableau)
-    lc = len(tableau[0, :])
-    lr = len(tableau[:, 0])
-    var = lc - lr - 1
-    i = 0
+        Maximiza o tableau inserido
+        :param tableau contendo o problema de otimização
+        :return: Dictionary {result, x1, x2,..., xn}
+        """
     val = {}
-    for i in range(var):
-        col = tableau[:, i]
-        s = sum(col)
-        m = max(col)
-        if float(s) == float(m):
-            loc = np.where(col == m)[0][0]
-            val[gen_var(tableau)[i]] = tableau[loc, -1]
-        else:
-            val[gen_var(tableau)[i]] = 0
+    result = 0
+    if len(pivot_vars) == 0:
+        pivot_vars = get_pivot_vars(s_var)
+
+    all_vars = get_vars(var, s_var)
+
+    while matrix_helper.next_iteration(tableau) and result == 0:
+        p = matrix_helper.get_pivot(tableau)
+        pivot_vars[p[0]] = all_vars[p[1]]
+        result = matrix_helper.pivot_around(tableau, p[0], p[1])
+
+    if result == -1:
+        val['result'] = 'Impossivel resolver'
+        return val
+
+    x_row = 0
+    res_var = []
+    for x in pivot_vars:
+        if x != 1:
+            res_var.append(x + ': ' + str(tableau[x_row, -1]))
+        x_row += 1
+
+    val['res_var'] = res_var
+
+    # for i in range(var):
+    #     col = tableau[:, i]
+    #     s = sum(col)
+    #     m = max(col)
+    #     if float(s) == float(m):
+    #         loc = np.where(col == m)[0][0]
+    #         val[gen_var(tableau)[i]] = tableau[loc, -1]
+    #     else:
+    #         val[gen_var(tableau)[i]] = 0
+
     val['result'] = tableau[-1, -1]
+    val['pivot_vars'] = pivot_vars
+    # val['matrix'] = tableau
     return val
 
 
-def minimize(tableau):
+def minimize(tableau, pivot_vars=[]):
     """
-    Minimizes the operational problem through inverting the tableau to a maximizing problem.
-    :param tableau
-    :return: Dictionary with the variable values and the result
+    Minimiza o tableau inserido invertendo os sinais para transformar em um problema de maximização.
+    :param tableau contendo o problema de otimização
+    :return: Dictionary {result, x1, x2,..., xn}
     """
     tableau = convert_to_min(tableau)
-    val = maximize(tableau)
+    val = maximize(tableau, pivot_vars)
     val['result'] = val['result'] * -1
+    # val['matrix'] = tableau
     return val
 
 
 def convert_to_min(tableau):
-    """Converts a tableau from minimizing to maximizing problem"""
-    tableau[-1, :-2] = [-1 * i for i in tableau[-1, :-2]]
+    """Converte um tableau de minimização para um de maximzação"""
+    tableau[-1, :-1] = [-1 * i for i in tableau[-1, :-1]]
     tableau[-1, -1] = -1 * tableau[-1, -1]
     return tableau
 
 
-def gen_var(table):
-    """Generates an array with the variable names"""
-    lc = len(table[0, :])
-    lr = len(table[:, 0])
-    var = lc - lr - 1
-    v = []
+def get_vars(var, s_var):
+    s = []
     for i in range(var):
-        v.append('x' + str(i + 1))
-    return v
+        s.append('x' + str(i + 1))
+
+    for i in range(s_var):
+        s.append('s' + str(i + 1))
+
+    return s
+
+
+def get_pivot_vars(var):
+    s = []
+    for i in range(var):
+        s.append('s' + str(i + 1))
+
+    return s

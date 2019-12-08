@@ -1,29 +1,20 @@
 import numpy as np
 
-"""Matrix helper
 
-This script helps manipulating optimization problems matrices 
-
-This script requires that `numpy` be installed within the Python
-environment you are running this script in.
-
-This file can also be imported as a module and contains the following
-functions:
-
-    * gen_matrix - Generates a matrix for the Optimization Problem
-    * can_insert_constraint - Returns True if the tableau has space for another constraint
-"""
-
-
-def gen_matrix(var_count, constraint_count) -> np.array:
-    """Generates a matrix for the Optimization Problem"""
+def gen_matrix(var_size, constraint_size, artificial_var_size=0) -> np.array:
+    """Gera um tableau para o problema de otimização"""
     # initializes the matrix with zeros
-    tableau = np.zeros(((constraint_count + 1), (var_count + constraint_count + 2)))
+    if artificial_var_size > 0:
+        tableau = \
+            np.zeros(((constraint_size + 2), (var_size + artificial_var_size + constraint_size + 1)))
+    else:
+        tableau = np.zeros(((constraint_size + 1), (var_size + constraint_size + 1)))
+
     return tableau
 
 
 def can_insert_constraint(tableau) -> bool:
-    """Returns True if the tableau has space for another constraint"""
+    """Retorna True se o tableau pode receber uma restrição"""
     empty = 0  # number of empty rows
     row_len = len(tableau[:, 0])
 
@@ -42,7 +33,7 @@ def can_insert_constraint(tableau) -> bool:
 
 
 def can_insert_obj_fun(tableau) -> bool:
-    """Returns True if the tableau has space and is missing the objective function"""
+    """Retorna True se o tableau pode receber a função objetivo"""
     empty = 0  # number of empty rows
     row_len = len(tableau[:, 0])
 
@@ -61,32 +52,38 @@ def can_insert_obj_fun(tableau) -> bool:
 
 
 def convert_string_to_constraint(str_constraint) -> np.array:
-    """Converts the string to a constraint array"""
+    """Converte uma string num array de restrição"""
     constraint = []
 
     if '<=' in str_constraint:
-        str_constraint = str_constraint.replace('<=,', '')
+        str_constraint = str_constraint.replace('<=', '1')
         # puts the constraint into an array
         str_split = str_constraint.split(',')
         constraint = [float(i) for i in str_split]
 
     if '>=' in str_constraint:
-        str_constraint = str_constraint.replace('>=,', '')
+        str_constraint = str_constraint.replace('>=', '-1')
         # puts the constraint into an array
         str_split = str_constraint.split(',')
-        constraint = [float(i) * -1 for i in str_split]  # multiplying by -1 to invert the symbol
+        constraint = [float(i) for i in str_split]  # multiplying by -1 to invert the symbol
+
+    if '=' in str_constraint:
+        str_constraint = str_constraint.replace('=', '0')
+        # puts the constraint into an array
+        str_split = str_constraint.split(',')
+        constraint = [float(i) for i in str_split]  # multiplying by -1 to invert the symbol
 
     return np.array(constraint)
 
 
 def insert_constraint(tableau, constraint) -> np.array:
-    """Insert a constraint into the tableau"""
+    """Insere uma restrição no tableau"""
     if can_insert_constraint(tableau):
         constraint = convert_string_to_constraint(constraint)
         col_len = len(tableau[0, :])
         row_len = len(tableau[:, 0])
 
-        var = col_len - row_len - 1
+        var = col_len - row_len
         var_offset = 0
         next_empty_row = np.array([])
 
@@ -102,18 +99,18 @@ def insert_constraint(tableau, constraint) -> np.array:
             var_offset += 1  # counts the number of constraints already added
 
         i = 0
-        while i < len(constraint) - 1:
+        while i < len(constraint) - 2:
             next_empty_row[i] = constraint[i]  # add the constraint into the next empty row
             i += 1
 
         next_empty_row[-1] = constraint[-1]
-        next_empty_row[var + var_offset] = 1
+        next_empty_row[var + var_offset] = constraint[var]
 
     return tableau
 
 
 def insert_obj_fun(tableau, str_obj_fun) -> np.array:
-    """Insert the objective function into the tableau"""
+    """Insere a função objetivo no tableau"""
     if can_insert_obj_fun(tableau):
         obj_fun = str_obj_fun.split(',')
         obj_fun = [float(i) for i in obj_fun]
@@ -126,101 +123,86 @@ def insert_obj_fun(tableau, str_obj_fun) -> np.array:
             last_empty_row[i] = obj_fun[i] * -1  # add the objective function into the last empty row
             i += 1
 
-        last_empty_row[-2] = 1  # put Z into the tableau
         last_empty_row[-1] = obj_fun[-1]
 
     return tableau
 
 
-def next_round_r(tableau) -> bool:
-    """Checks if pivots are required"""
-    m = min(tableau[:-1, -1])
-    if m >= 0:
-        return False
-    else:
-        return True
+def next_iteration(tableau) -> bool:
+    """Retorna True se necessario mais uma iteracao"""
+    min_col = min(tableau[-1, :-1])
+
+    return min_col < 0
 
 
-def next_round(tableau) -> bool:
-    """Checks if pivots are required, therefore another iteration"""
-    lr = len(tableau[:, 0])
-    m = min(tableau[lr - 1, :-1])
-    if m >= 0:
-        return False
-    else:
-        return True
+def get_pivot(tableau) -> [int, int]:
+    """Retorna as coordenadas do pivot"""
+    m = min(tableau[-1, :-1])
+
+    col = 0
+    row = 0
+    lowest = [0, 0]
+    for i in tableau[-1, :-1]:
+        if i == m:
+            p_r = pivot_r(tableau, col, lowest[1])
+
+            if p_r[1] < lowest[1] or lowest[1] == 0:
+                row = p_r[0]
+                lowest[0] = col
+                lowest[1] = p_r[1]
+
+        col += 1
+
+    return [row, lowest[0]]
 
 
-def find_lowest_into_obj_fun(tableau):
-    """Finds the column with the lowest value between variables of the objective function"""
-    lr = len(tableau[:, 0])
-    m = min(tableau[lr - 1, :-1])
-    if m <= 0:
-        n = np.where(tableau[lr - 1, :-1] == m)[0][0]
-    else:
-        n = None
-    return n
+def pivot_r(tableau, pivot_column, min_div=0) -> [int, float]:
+    """Retorna a linha e a razao minima do possivel pivo"""
+    pivot_column = tableau[:-1, pivot_column]
+    const_column = tableau[:-1, -1]
+
+    row = 0
+    lowest_r = 0
+    for const, p in zip(const_column, pivot_column):
+        if p != 0 and (min_div > const / p > 0 or (min_div == 0 and const / p > 0)):
+            min_div = const / p
+            lowest_r = row
+
+        row += 1
+
+    return [lowest_r, min_div]
 
 
-def find_lowest_element_into_constraints(tableau):
-    """Finds the row of the lowest value between the constraints limits"""
-    lc = len(tableau[0, :])
-    m = min(tableau[:-1, lc - 1])
-    if m <= 0:
-        n = np.where(tableau[:-1, lc - 1] == m)[0][0]
-    else:
-        n = None
-    return n
+def pivot_around(tableau, p_row, p_column) -> int:
+    """
+    Pivoteia em volta do pivo dado
+    :param tableau:
+    :param p_row:
+    :param p_column:
+    :return: -1 se impossivel
+    """
+    row_len = len(tableau[:, 0])
+    col_len = len(tableau[0, :])
 
+    if p_row >= row_len or p_column >= col_len:
+        print('Problema impossivel')
+        return -1
 
-def loc_pivot_row(tableau):
-    """Finds the pivot column and row. Used for pivoting the row"""
-    total = []
-    r = find_lowest_element_into_constraints(tableau)
-    row = tableau[r, :-1]
-    m = min(row)
-    c = np.where(row == m)[0][0]
-    col = tableau[:-1, c]
-    for i, b in zip(col, tableau[:-1, -1]):
-        if i != 0 and i ** 2 > 0 and b / i > 0:
-            total.append(b / i)
-        else:
-            total.append(10000)
-    index = total.index(min(total))
-    return [index, c]
+    p = tableau[p_row, p_column]
 
+    for k in range(col_len):
+        if tableau[p_row, k] != 0 and p != 0:
+            tableau[p_row, k] = tableau[p_row, k] / p
 
-def loc_pivot_col(tableau):
-    """Finds the pivot column and row. Used for pivoting the column"""
-    if next_round(tableau):
-        total = []
-        n = find_lowest_into_obj_fun(tableau)
-        for i, b in zip(tableau[:-1, n], tableau[:-1, -1]):
-            if i != 0 and b / i > 0 and i ** 2 > 0:
-                total.append(b / i)
-            else:
-                total.append(10000)
-        index = total.index(min(total))
-        return [index, n]
+    pivot_row = [i for i in tableau[p_row, :]]
 
+    current_row_index = 0
+    for current_row in tableau[:, :]:
+        if current_row_index != p_row:
+            row_coef = current_row[p_column]
+            for k in range(col_len):
+                current_row[k] = current_row[k] - row_coef * pivot_row[k]
 
-def pivot(row, col, tableau):
-    """Pivot around the value into row and column assigned"""
-    lr = len(tableau[:, 0])
-    lc = len(tableau[0, :])
-    t = np.zeros((lr, lc))
-    pr = tableau[row, :]
-    if tableau[row, col] ** 2 > 0:
-        e = 1 / tableau[row, col]
-        r = pr * e
-        for i in range(len(tableau[:, col])):
-            k = tableau[i, :]
-            c = tableau[i, col]
-            if list(k) == list(pr):
-                continue
-            else:
-                t[i, :] = list(k - r * c)
-        t[row, :] = list(r)
-        return t
-    else:
-        print('Cannot pivot on this element.')
+        current_row_index += 1
+
+    return 0
