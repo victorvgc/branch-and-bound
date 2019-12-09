@@ -2,7 +2,7 @@ from main import matrix_helper, simplex, simplex_two_steps, branch_and_bound
 from main.matrix_helper import insert_obj_fun, gen_matrix, insert_constraint
 
 if __name__ == '__main__':
-    # Simplex comum
+    # Simplex maximizacao
     tableau = gen_matrix(2, 4)
 
     tableau = insert_constraint(tableau, '6,4,<=,24')
@@ -12,6 +12,19 @@ if __name__ == '__main__':
     tableau = insert_obj_fun(tableau, '5,4,0')
 
     result = simplex.maximize(tableau)
+
+    print(result['res_var'])
+    print(result['result'])
+
+    # Simplex minimizacao
+    tableau = gen_matrix(4, 3)
+
+    tableau = insert_constraint(tableau, '1,2,2,4,<=,40')
+    tableau = insert_constraint(tableau, '2,-1,3,2,<=,8')
+    tableau = insert_constraint(tableau, '4,-2,1,-1,<=,10')
+    tableau = insert_obj_fun(tableau, '5,-4,6,-8,0')
+
+    result = simplex.minimize(tableau)
 
     print(result['res_var'])
     print(result['result'])

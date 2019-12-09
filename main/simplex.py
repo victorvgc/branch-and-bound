@@ -65,7 +65,7 @@ def maximize(tableau, var=0, s_var=0, pivot_vars=[], is_two_steps=False):
     return val
 
 
-def minimize(tableau, var, s_var, pivot_vars=[]):
+def minimize(tableau, var=0, s_var=0, pivot_vars=[]):
     """Minimiza o PL inserido invertendo os sinais para transformar em um problema de maximização"""
     tableau = convert_to_min(tableau)
     val = maximize(tableau, var, s_var, pivot_vars)

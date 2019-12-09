@@ -43,11 +43,13 @@
                                 utilizar</a>
                                 <ul>
                                     <li class="toctree-l2"><a class="reference internal"
-                                                              href="usage/quickstart.html#simplex-comum">Simplex
-                                        comum</a>
+                                                              href="usage/quickstart.html#simplex">Simplex</a>
                                         <ul>
                                             <li class="toctree-l3"><a class="reference internal"
                                                                       href="usage/quickstart.html#maximizacao">Maximizacao</a>
+                                            </li>
+                                            <li class="toctree-l3"><a class="reference internal"
+                                                                      href="usage/quickstart.html#minimizacao">Minimizacao</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -59,7 +61,7 @@
                                                                       href="usage/quickstart.html#id1">Maximizacao</a>
                                             </li>
                                             <li class="toctree-l3"><a class="reference internal"
-                                                                      href="usage/quickstart.html#minimizacao">Minimizacao</a>
+                                                                      href="usage/quickstart.html#id2">Minimizacao</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -68,10 +70,10 @@
                                         Bound</a>
                                         <ul>
                                             <li class="toctree-l3"><a class="reference internal"
-                                                                      href="usage/quickstart.html#id2">Maximizacao</a>
+                                                                      href="usage/quickstart.html#id3">Maximizacao</a>
                                             </li>
                                             <li class="toctree-l3"><a class="reference internal"
-                                                                      href="usage/quickstart.html#id3">Minimizacao</a>
+                                                                      href="usage/quickstart.html#id4">Minimizacao</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -144,8 +146,8 @@
                             <dt id="main.simplex.minimize">
                                 <code class="sig-prename descclassname">main.simplex.</code><code
                                     class="sig-name descname">minimize</code><span class="sig-paren">(</span><em
-                                    class="sig-param">tableau</em>, <em class="sig-param">var</em>, <em
-                                    class="sig-param">s_var</em>, <em class="sig-param">pivot_vars=[]</em><span
+                                    class="sig-param">tableau</em>, <em class="sig-param">var=0</em>, <em
+                                    class="sig-param">s_var=0</em>, <em class="sig-param">pivot_vars=[]</em><span
                                     class="sig-paren">)</span><a class="headerlink" href="#main.simplex.minimize"
                                                                  title="Link permanente para esta definição">¶</a></dt>
                             <dd><p>Minimiza o PL inserido invertendo os sinais para transformar em um problema de
@@ -635,7 +637,7 @@
     &copy;2019, Victor Carvalho.
 
     |
-    Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
     &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
 
     |

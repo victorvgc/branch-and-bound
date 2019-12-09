@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+    <meta charset="utf-8"/>
+    <title>Como utilizar &#8212; Documentação Branch and Bound </title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css"/>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="../"
+            src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html"/>
+    <link rel="search" title="Pesquisar" href="../search.html"/>
+    <link rel="prev" title="Branch and Bound’s documentation" href="../index.html"/>
+
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+
+</head>
+<body>
+
+
+<div class="document">
+    <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+            <div class="body" role="main">
+
+                <div class="section" id="como-utilizar">
+                    <h1>Como utilizar<a class="headerlink" href="#como-utilizar"
+                                        title="Link permanente para este título">¶</a></h1>
+                    <p>Inicie um tableu contendo a quantidade de variaveis e de restricoes:</p>
+                    <div class="highlight-default notranslate">
+                        <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                class="n">gen_matrix</span><span class="p">([</span><span
+                                class="n">variaveis</span><span class="p">],</span> <span class="p">[</span><span
+                                class="n">restricoes</span><span class="p">])</span>
+</pre>
+                        </div>
+                    </div>
+                    <p>Insira todas as restricoes seguindo a notacao <code class="docutils literal notranslate"><span
+                            class="pre">'[x1],[x2],...,[xn],[operador],[restricao]'</span></code>, sem utilizar espacos:
+                    </p>
+                    <div class="highlight-default notranslate">
+                        <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                class="n">insert_constraint</span><span class="p">(</span><span class="n">tableau</span><span
+                                class="p">,</span> <span
+                                class="s1">&#39;[x1],[x2],...,[xn],[operador],[restricao]&#39;</span><span
+                                class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                    <p>Insira a funcao objetivo seguindo a notacao <code class="docutils literal notranslate"><span
+                            class="pre">'[x1],[x2],...,[xn],[constante]'</span></code>. Caso nao exista constante, a
+                        mesma deve ser iniciada com <code class="docutils literal notranslate"><span
+                                class="pre">0</span></code></p>
+                    <div class="highlight-default notranslate">
+                        <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                class="n">insert_obj_fun</span><span class="p">(</span><span
+                                class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;[x1],[x2],...,[xn],[constante]&#39;</span><span
+                                class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                    <p>Recupere o resultado atraves de uma variavel que e retornada do metodo.</p>
+                    <div class="highlight-default notranslate">
+                        <div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span
+                                class="n">simplex</span><span class="o">.</span><span class="n">maximize</span><span
+                                class="p">(</span><span class="n">tableau</span><span class="p">)</span>
+</pre>
+                        </div>
+                    </div>
+                    <p>O <code class="docutils literal notranslate"><span class="pre">result</span></code> e um <code
+                            class="docutils literal notranslate"><span class="pre">Dictionary</span></code> contendo os
+                        campos <code class="docutils literal notranslate"><span class="pre">res_var</span></code> e
+                        <code class="docutils literal notranslate"><span class="pre">result</span></code>:</p>
+                    <ul class="simple">
+                        <li><p><code class="docutils literal notranslate"><span class="pre">res_var</span></code>: <code
+                                class="docutils literal notranslate"><span class="pre">Dictionary</span></code> contendo
+                            o valores de x1, x2,…, xn;</p></li>
+                        <li><p><code class="docutils literal notranslate"><span class="pre">result</span></code>: contem
+                            o valor da operacao, sendo ele o maximo ou minimo do PL.</p></li>
+                    </ul>
+                    <p>#Exemplos</p>
+                    <div class="section" id="simplex">
+                        <h2>Simplex<a class="headerlink" href="#simplex" title="Link permanente para este título">¶</a>
+                        </h2>
+                        <div class="section" id="maximizacao">
+                            <h3>Maximizacao<a class="headerlink" href="#maximizacao"
+                                              title="Link permanente para este título">¶</a></h3>
+                            <div class="highlight-default notranslate">
+                                <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                        class="n">gen_matrix</span><span class="p">(</span><span
+                                        class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span
+                                        class="p">)</span>
+
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;6,4,&lt;=,24&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;1,2,&lt;=,6&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;-1,1,&lt;=,1&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;0,1,&lt;=,2&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_obj_fun</span><span
+                                            class="p">(</span><span class="n">tableau</span><span
+                                            class="p">,</span> <span class="s1">&#39;5,4,0&#39;</span><span
+                                            class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">simplex</span><span class="o">.</span><span
+                                            class="n">maximize</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;res_var&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;result&#39;</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="minimizacao">
+                            <h3>Minimizacao<a class="headerlink" href="#minimizacao"
+                                              title="Link permanente para este título">¶</a></h3>
+                            <div class="highlight-default notranslate">
+                                <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                        class="n">gen_matrix</span><span class="p">(</span><span
+                                        class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span
+                                        class="p">)</span>
+
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;1,2,2,4,&lt;=,40&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;2,-1,3,2,&lt;=,8&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;4,-2,1,-1,&lt;=,10&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_obj_fun</span><span
+                                            class="p">(</span><span class="n">tableau</span><span
+                                            class="p">,</span> <span class="s1">&#39;5,-4,6,-8,0&#39;</span><span
+                                            class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">simplex</span><span class="o">.</span><span
+                                            class="n">minimize</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;res_var&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;result&#39;</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="simplex-de-duas-fases">
+                        <h2>Simplex de duas fases<a class="headerlink" href="#simplex-de-duas-fases"
+                                                    title="Link permanente para este título">¶</a></h2>
+                        <div class="section" id="id1">
+                            <h3>Maximizacao<a class="headerlink" href="#id1"
+                                              title="Link permanente para este título">¶</a></h3>
+                            <div class="highlight-default notranslate">
+                                <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                        class="n">gen_matrix</span><span class="p">(</span><span
+                                        class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span
+                                        class="p">)</span>
+
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;2,1,-1,&lt;=,10&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;1,1,2,&gt;=,20&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;2,1,3,=,60&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_obj_fun</span><span
+                                            class="p">(</span><span class="n">tableau</span><span
+                                            class="p">,</span> <span class="s1">&#39;1,1,1,0&#39;</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">simplex_two_steps</span><span
+                                            class="o">.</span><span class="n">maximize</span><span
+                                            class="p">(</span><span class="n">tableau</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;res_var&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;result&#39;</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="id2">
+                            <h3>Minimizacao<a class="headerlink" href="#id2"
+                                              title="Link permanente para este título">¶</a></h3>
+                            <div class="highlight-default notranslate">
+                                <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                        class="n">gen_matrix</span><span class="p">(</span><span
+                                        class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span
+                                        class="p">)</span>
+
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;1,1,&gt;=,2&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;-1,1,&gt;=,1&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;0,1,&lt;=,3&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_obj_fun</span><span
+                                            class="p">(</span><span class="n">tableau</span><span
+                                            class="p">,</span> <span class="s1">&#39;1,-2,0&#39;</span><span
+                                            class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">simplex_two_steps</span><span
+                                            class="o">.</span><span class="n">minimize</span><span
+                                            class="p">(</span><span class="n">tableau</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;res_var&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;result&#39;</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section" id="branch-and-bound">
+                        <h2>Branch and Bound<a class="headerlink" href="#branch-and-bound"
+                                               title="Link permanente para este título">¶</a></h2>
+                        <div class="section" id="id3">
+                            <h3>Maximizacao<a class="headerlink" href="#id3"
+                                              title="Link permanente para este título">¶</a></h3>
+                            <div class="highlight-default notranslate">
+                                <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                        class="n">gen_matrix</span><span class="p">(</span><span
+                                        class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span
+                                        class="p">)</span>
+
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;1,1,&lt;=,6&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;5,9,&lt;=,45&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_obj_fun</span><span
+                                            class="p">(</span><span class="n">tableau</span><span
+                                            class="p">,</span> <span class="s1">&#39;5,8,0&#39;</span><span
+                                            class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">branch_and_bound</span><span
+                                            class="o">.</span><span class="n">maximize</span><span
+                                            class="p">(</span><span class="n">tableau</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;res_var&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;result&#39;</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section" id="id4">
+                            <h3>Minimizacao<a class="headerlink" href="#id4"
+                                              title="Link permanente para este título">¶</a></h3>
+                            <div class="highlight-default notranslate">
+                                <div class="highlight"><pre><span></span><span class="n">tableau</span> <span class="o">=</span> <span
+                                        class="n">gen_matrix</span><span class="p">(</span><span
+                                        class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span
+                                        class="p">)</span>
+
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;6,7,&gt;=,40&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_constraint</span><span class="p">(</span><span
+                                            class="n">tableau</span><span class="p">,</span> <span class="s1">&#39;0,1,&gt;=,2&#39;</span><span
+                                            class="p">)</span>
+<span class="n">tableau</span> <span class="o">=</span> <span class="n">insert_obj_fun</span><span
+                                            class="p">(</span><span class="n">tableau</span><span
+                                            class="p">,</span> <span class="s1">&#39;6,8,0&#39;</span><span
+                                            class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">branch_and_bound</span><span
+                                            class="o">.</span><span class="n">minimize</span><span
+                                            class="p">(</span><span class="n">tableau</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;res_var&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span
+                                            class="s1">&#39;result&#39;</span><span class="p">])</span>
+</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <h1 class="logo"><a href="../index.html">Branch and Bound</a></h1>
+
+
+            <h3>Navegação</h3>
+            <ul class="current">
+                <li class="toctree-l1 current"><a class="current reference internal" href="#">Como utilizar</a>
+                    <ul>
+                        <li class="toctree-l2"><a class="reference internal" href="#simplex">Simplex</a>
+                            <ul>
+                                <li class="toctree-l3"><a class="reference internal" href="#maximizacao">Maximizacao</a>
+                                </li>
+                                <li class="toctree-l3"><a class="reference internal" href="#minimizacao">Minimizacao</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="#simplex-de-duas-fases">Simplex de
+                            duas fases</a>
+                            <ul>
+                                <li class="toctree-l3"><a class="reference internal" href="#id1">Maximizacao</a></li>
+                                <li class="toctree-l3"><a class="reference internal" href="#id2">Minimizacao</a></li>
+                            </ul>
+                        </li>
+                        <li class="toctree-l2"><a class="reference internal" href="#branch-and-bound">Branch and
+                            Bound</a>
+                            <ul>
+                                <li class="toctree-l3"><a class="reference internal" href="#id3">Maximizacao</a></li>
+                                <li class="toctree-l3"><a class="reference internal" href="#id4">Minimizacao</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="relations">
+                <h3>Related Topics</h3>
+                <ul>
+                    <li><a href="../index.html">Documentation overview</a>
+                        <ul>
+                            <li>Previous: <a href="../index.html" title="capítulo anterior">Branch and Bound’s
+                                documentation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="searchbox" style="display: none" role="search">
+                <h3 id="searchlabel">Pesquisa rápida</h3>
+                <div class="searchformwrapper">
+                    <form class="search" action="../search.html" method="get">
+                        <input type="text" name="q" aria-labelledby="searchlabel"/>
+                        <input type="submit" value="Ir"/>
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+        </div>
+    </div>
+    <div class="clearer"></div>
+</div>
+<div class="footer">
+    &copy;2019, Victor Carvalho.
+
+    |
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+    &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+    |
+    <a href="../_sources/usage/quickstart.md.txt"
+       rel="nofollow">Page source</a>
+</div>
+
+
+</body>
+</html>
