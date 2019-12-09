@@ -41,7 +41,7 @@ def maximize(tableau, var=0, s_var=0, pivot_vars=[], is_two_steps=False):
         val['result'] = 'Impossivel resolver'
         return val
 
-    # Preenche o vetor de resultado de xn
+    # Preenche o vetor de resultados de xn
     x_row = 0
     res_var = {}
     for x in pivot_vars:

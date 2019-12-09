@@ -53,12 +53,14 @@ def maximize(tableau, original=[], last_var_used=' ', best_solution=-1000000000,
         if is_possible_right(result, best_solution):  # avalia se e possivel continuar para a direita
             r_res = maximize(right, original, last_var_used, best_solution, var_size=var_size)
 
+            # avalia o resultado do galho para comparacao de valores
             if isinstance(r_res['result'], float) and r_res['result'] > highest:
                 result = r_res
                 highest = r_res['result']
 
         l_res = maximize(left, original, last_var_used, best_solution, var_size=var_size)
 
+        # avalia o resultado do galho para comparacao de valores
         if isinstance(l_res['result'], float) and l_res['result'] > highest:
             result = l_res
 
@@ -118,6 +120,7 @@ def minimize(tableau, original=[], last_var_used=' ', best_solution=1000000000, 
         # gera dois novos galhos
         r_res = minimize(right, original, last_var_used, best_solution, var_size=var_size)
 
+        # avalia o resultado do galho para comparacao de valores
         if isinstance(r_res['result'], float) and r_res['result'] < lowest:
             result = r_res
             lowest = r_res['result']
@@ -125,6 +128,7 @@ def minimize(tableau, original=[], last_var_used=' ', best_solution=1000000000, 
         if is_possible_left(result, best_solution):  # avalia se e possivel continuar para a esquerda
             l_res = minimize(left, original, last_var_used, best_solution, var_size=var_size)
 
+            # avalia o resultado do galho para comparacao de valores
             if isinstance(l_res['result'], float) and l_res['result'] < lowest:
                 result = l_res
 

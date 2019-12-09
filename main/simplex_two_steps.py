@@ -13,8 +13,10 @@ def maximize(tableau, var=0, s_var=0) -> np.array:
     if s_var == 0:
         s_var = row_len - 1
 
+    # verifica se ha necessidade de duas fases
     artificial_var_size = get_artificial_var_size(tableau)
     if artificial_var_size > 0:
+
         tableau_two_steps = matrix_helper.gen_matrix(var, s_var, artificial_var_size)
 
         # preenche as variaveis artificiais no tableau de duas fases
@@ -39,6 +41,7 @@ def maximize(tableau, var=0, s_var=0) -> np.array:
         return simplex.maximize(tableau_two_steps, var, s_var, result['pivot_vars'])
 
     else:
+        # caso nao necessite de duas fases, utiliza o simplex comum
         return simplex.maximize(tableau, var, s_var)
 
 
