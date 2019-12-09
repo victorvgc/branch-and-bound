@@ -70,6 +70,9 @@
                                             <li class="toctree-l3"><a class="reference internal"
                                                                       href="usage/quickstart.html#id2">Maximizacao</a>
                                             </li>
+                                            <li class="toctree-l3"><a class="reference internal"
+                                                                      href="usage/quickstart.html#id3">Minimizacao</a>
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -269,18 +272,6 @@
                         </dl>
 
                         <dl class="function">
-                            <dt id="main.branch_and_bound.convert_to_min">
-                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
-                                    class="sig-name descname">convert_to_min</code><span class="sig-paren">(</span><em
-                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                     href="#main.branch_and_bound.convert_to_min"
-                                                                                                     title="Link permanente para esta definição">¶</a>
-                            </dt>
-                            <dd><p>Converte um tableau de minimização para um de maximzação</p>
-                            </dd>
-                        </dl>
-
-                        <dl class="function">
                             <dt id="main.branch_and_bound.evaluate_add_new_constraint">
                                 <code class="sig-prename descclassname">main.branch_and_bound.</code><code
                                     class="sig-name descname">evaluate_add_new_constraint</code><span class="sig-paren">(</span><em
@@ -378,6 +369,18 @@
                         </dl>
 
                         <dl class="function">
+                            <dt id="main.branch_and_bound.has_solution">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">has_solution</code><span class="sig-paren">(</span><em
+                                    class="sig-param">result</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                    href="#main.branch_and_bound.has_solution"
+                                                                                                    title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Avalia se o resultado atual e uma solucao</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
                             <dt id="main.branch_and_bound.is_a_viable_solution">
                                 <code class="sig-prename descclassname">main.branch_and_bound.</code><code
                                     class="sig-name descname">is_a_viable_solution</code><span
@@ -386,6 +389,18 @@
                                                                  href="#main.branch_and_bound.is_a_viable_solution"
                                                                  title="Link permanente para esta definição">¶</a></dt>
                             <dd><p>Verifica se a solucao e viavel</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.is_possible_left">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">is_possible_left</code><span class="sig-paren">(</span><em
+                                    class="sig-param">result</em>, <em class="sig-param">best</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.is_possible_left"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Verifica se a solucao mais a esquerda e possivel</p>
                             </dd>
                         </dl>
 
@@ -419,10 +434,12 @@
                             <dt id="main.branch_and_bound.minimize">
                                 <code class="sig-prename descclassname">main.branch_and_bound.</code><code
                                     class="sig-name descname">minimize</code><span class="sig-paren">(</span><em
-                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
-                                                                                                     href="#main.branch_and_bound.minimize"
-                                                                                                     title="Link permanente para esta definição">¶</a>
-                            </dt>
+                                    class="sig-param">tableau</em>, <em class="sig-param">original=[]</em>, <em
+                                    class="sig-param">last_var_used=' '</em>, <em class="sig-param">best_solution=1000000000</em>,
+                                <em class="sig-param">has_constraints_on=[]</em>, <em
+                                    class="sig-param">var_size=0</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.branch_and_bound.minimize"
+                                    title="Link permanente para esta definição">¶</a></dt>
                             <dd><p>Minimiza o PL com x1, x2, …, xn inteiros</p>
                             </dd>
                         </dl>

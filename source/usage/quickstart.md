@@ -62,3 +62,15 @@ Como utilizar
 
     print(result['res_var'])
     print(result['result'])
+    
+### Minimizacao
+
+    tableau = gen_matrix(2, 2)
+
+    tableau = insert_constraint(tableau, '6,7,>=,40')
+    tableau = insert_constraint(tableau, '0,1,>=,2')
+    tableau = insert_obj_fun(tableau, '6,8,0')
+
+    result = branch_and_bound.minimize(tableau)
+    print(result['res_var'])
+    print(result['result'])
