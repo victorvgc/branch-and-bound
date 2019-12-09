@@ -29,7 +29,7 @@ def maximize(tableau, var=0, s_var=0) -> np.array:
         tableau_two_steps[:-1, -1] = tableau[:, -1]
 
         # resolve o primeiro passo
-        result = simplex.maximize(tableau_two_steps, var, s_var)
+        result = simplex.maximize(tableau_two_steps, var, s_var, is_two_steps=True)
 
         # resolve o segundo passo
         tableau_two_steps = remove_artificial_row(tableau_two_steps)

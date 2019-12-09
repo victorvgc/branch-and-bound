@@ -167,7 +167,7 @@ def next_iteration(tableau) -> bool:
     return min_col < 0
 
 
-def get_pivot(tableau) -> [int, int]:
+def get_pivot(tableau, is_two_steps=False) -> [int, int]:
     """Retorna as coordenadas do pivot"""
     m = min(tableau[-1, :-1])
 
@@ -176,7 +176,7 @@ def get_pivot(tableau) -> [int, int]:
     lowest = [0, 0]
     for i in tableau[-1, :-1]:
         if i == m:
-            p_r = pivot_r(tableau, col, lowest[1])
+            p_r = pivot_r(tableau, col, lowest[1], is_two_steps)
 
             if p_r[1] < lowest[1] or lowest[1] == 0:
                 row = p_r[0]
@@ -188,15 +188,19 @@ def get_pivot(tableau) -> [int, int]:
     return [row, lowest[0]]
 
 
-def pivot_r(tableau, pivot_column, min_div=0) -> [int, float]:
+def pivot_r(tableau, pivot_column, min_div=0, is_two_steps=False) -> [int, float]:
     """Retorna a linha e a razao minima do possivel pivo"""
     pivot_column = tableau[:-1, pivot_column]
-    const_column = tableau[:-1, -1]
+
+    if is_two_steps:
+        const_column = tableau[:-2, -1]
+    else:
+        const_column = tableau[:-1, -1]
 
     row = 0
     lowest_r = 0
     for const, p in zip(const_column, pivot_column):
-        if p != 0 and (min_div > const / p > 0 or (min_div == 0 and const / p > 0)):
+        if const == 0 or (p != 0 and (min_div > const / p > 0 or (min_div == 0 and const / p > 0))):
             min_div = const / p
             lowest_r = row
 

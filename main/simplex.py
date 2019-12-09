@@ -1,27 +1,36 @@
 from main import matrix_helper
 
 
-def maximize(tableau, var, s_var, pivot_vars=[]):
+def maximize(tableau, var=0, s_var=0, pivot_vars=[], is_two_steps=False):
     """
         Maximiza o tableau inserido
         :param tableau contendo o problema de otimização
         :param var
         :param s_var
         :param pivot_vars
+        :param is_two_steps
         :return: Dictionary {result, x1, x2,..., xn}
         """
     val = {}
     result = 0
 
-    s_var = len(tableau[0, :-1]) - var
+    row_len = len(tableau[:, 0])
+    col_len = len(tableau[0, :])
+    if var == 0:
+        var = col_len - row_len
+
+    if s_var == 0:
+        s_var = row_len - 1
+
+    len_r = len(tableau[0, :-1])
 
     if len(pivot_vars) == 0:
         pivot_vars = get_pivot_vars(s_var)
 
-    all_vars = get_vars(var, s_var)
+    all_vars = get_vars(var, len_r)
 
     while matrix_helper.next_iteration(tableau) and result == 0:
-        p = matrix_helper.get_pivot(tableau)
+        p = matrix_helper.get_pivot(tableau, is_two_steps)
         pivot_vars[p[0]] = all_vars[p[1]]
         result = matrix_helper.pivot_around(tableau, p[0], p[1])
 
@@ -32,9 +41,14 @@ def maximize(tableau, var, s_var, pivot_vars=[]):
     x_row = 0
     res_var = {}
     for x in pivot_vars:
-        if x != 1:
+        if 'x' in x and float(x.replace('x', '')) <= var:
             res_var[x] = tableau[x_row, -1]
         x_row += 1
+
+    if len(res_var) < var:
+        for x in range(var):
+            if 'x' + str(x + 1) not in res_var:
+                res_var['x' + str(x + 1)] = 0
 
     val['res_var'] = res_var
 
@@ -83,7 +97,7 @@ def get_vars(var, s_var):
     for i in range(var):
         s.append('x' + str(i + 1))
 
-    for i in range(s_var):
+    for i in range(s_var - var):
         s.append('s' + str(i + 1))
 
     return s
