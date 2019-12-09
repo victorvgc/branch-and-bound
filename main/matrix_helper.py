@@ -109,6 +109,38 @@ def insert_constraint(tableau, constraint) -> np.array:
     return tableau
 
 
+def insert_vector_constraint(tableau, constraint) -> np.array:
+    """Insere uma restrição no tableau"""
+
+    col_len = len(tableau[0, :])
+    row_len = len(tableau[:, 0])
+
+    var = col_len - row_len
+    var_offset = 0
+    next_empty_row = np.array([])
+
+    while var_offset < row_len:  # find the next empty row to insert the constraint
+        next_empty_row = tableau[var_offset, :]
+        total = 0
+        for i in next_empty_row:
+            total = i ** 2
+
+        if total == 0:
+            break
+
+        var_offset += 1  # counts the number of constraints already added
+
+    i = 0
+    while i < len(constraint) - 2:
+        next_empty_row[i] = constraint[i]  # add the constraint into the next empty row
+        i += 1
+
+    next_empty_row[-1] = constraint[-1]
+    next_empty_row[var + var_offset] = constraint[var]
+
+    return tableau
+
+
 def insert_obj_fun(tableau, str_obj_fun) -> np.array:
     """Insere a função objetivo no tableau"""
     if can_insert_obj_fun(tableau):

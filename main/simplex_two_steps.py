@@ -3,21 +3,24 @@ import numpy as np
 from main import matrix_helper, simplex
 
 
-def maximize(tableau) -> np.array:
+def maximize(tableau, var=0, s_var=0) -> np.array:
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
-    var_size = col_len - row_len
-    const_var_size = row_len - 1
+    if var == 0:
+        var = col_len - row_len
+
+    if s_var == 0:
+        s_var = row_len - 1
 
     artificial_var_size = get_artificial_var_size(tableau)
     if artificial_var_size > 0:
-        tableau_two_steps = matrix_helper.gen_matrix(var_size, const_var_size, artificial_var_size)
+        tableau_two_steps = matrix_helper.gen_matrix(var, s_var, artificial_var_size)
 
         # preenche as variaveis artificiais no tableau de duas fases
         insert_artificial_row(tableau, tableau_two_steps, artificial_var_size)
         insert_artificial_columns(tableau, tableau_two_steps)
 
-        total_var_size = var_size + const_var_size
+        total_var_size = var + s_var
 
         # preenche as variaveis do problema original no tableau de duas fases
         tableau_two_steps[:-1, :total_var_size] = tableau[:, :-1]
@@ -26,21 +29,21 @@ def maximize(tableau) -> np.array:
         tableau_two_steps[:-1, -1] = tableau[:, -1]
 
         # resolve o primeiro passo
-        result = simplex.maximize(tableau_two_steps, var_size, const_var_size)
+        result = simplex.maximize(tableau_two_steps, var, s_var)
 
         # resolve o segundo passo
         tableau_two_steps = remove_artificial_row(tableau_two_steps)
         tableau_two_steps = remove_artificial_columns(tableau_two_steps, artificial_var_size)
 
-        return simplex.maximize(tableau_two_steps, var_size, const_var_size, result['pivot_vars'])
+        return simplex.maximize(tableau_two_steps, var, s_var, result['pivot_vars'])
 
     else:
-        return simplex.maximize(tableau)
+        return simplex.maximize(tableau, var, s_var)
 
 
-def minimize(tableau):
+def minimize(tableau, var=0, s_var=0):
     tableau = convert_to_min(tableau)
-    val = maximize(tableau)
+    val = maximize(tableau, var, s_var)
     val['result'] = val['result'] * -1
     return val
 

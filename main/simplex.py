@@ -5,10 +5,16 @@ def maximize(tableau, var, s_var, pivot_vars=[]):
     """
         Maximiza o tableau inserido
         :param tableau contendo o problema de otimização
+        :param var
+        :param s_var
+        :param pivot_vars
         :return: Dictionary {result, x1, x2,..., xn}
         """
     val = {}
     result = 0
+
+    s_var = len(tableau[0, :-1]) - var
+
     if len(pivot_vars) == 0:
         pivot_vars = get_pivot_vars(s_var)
 
@@ -24,10 +30,10 @@ def maximize(tableau, var, s_var, pivot_vars=[]):
         return val
 
     x_row = 0
-    res_var = []
+    res_var = {}
     for x in pivot_vars:
         if x != 1:
-            res_var.append(x + ': ' + str(tableau[x_row, -1]))
+            res_var[x] = tableau[x_row, -1]
         x_row += 1
 
     val['res_var'] = res_var
@@ -48,14 +54,18 @@ def maximize(tableau, var, s_var, pivot_vars=[]):
     return val
 
 
-def minimize(tableau, pivot_vars=[]):
+def minimize(tableau, var, s_var, pivot_vars=[]):
     """
     Minimiza o tableau inserido invertendo os sinais para transformar em um problema de maximização.
     :param tableau contendo o problema de otimização
+    :param tableau contendo o problema de otimização
+    :param var
+    :param s_var
+    :param pivot_vars
     :return: Dictionary {result, x1, x2,..., xn}
     """
     tableau = convert_to_min(tableau)
-    val = maximize(tableau, pivot_vars)
+    val = maximize(tableau, var, s_var, pivot_vars)
     val['result'] = val['result'] * -1
     # val['matrix'] = tableau
     return val
