@@ -6,6 +6,10 @@ def maximize(tableau, var=0, s_var=0, pivot_vars=[], is_two_steps=False):
     val = {}
     result = 0
 
+    # Define um maximo de iteracoes para evitar loops infinitos
+    max_iterations = 5000
+    total_iterations = 0
+
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     if var == 0:
@@ -26,9 +30,14 @@ def maximize(tableau, var=0, s_var=0, pivot_vars=[], is_two_steps=False):
         p = matrix_helper.get_pivot(tableau, is_two_steps)
         pivot_vars[p[0]] = all_vars[p[1]]
         result = matrix_helper.pivot_around(tableau, p[0], p[1])
+        total_iterations += 1
+        if total_iterations > max_iterations:
+            result = -1
 
     # Caso o resultado seja impossivel, cancela o metodo e retorna um erro
     if result == -1:
+        val['pivot_vars'] = []
+        val['res_var'] = ''
         val['result'] = 'Impossivel resolver'
         return val
 

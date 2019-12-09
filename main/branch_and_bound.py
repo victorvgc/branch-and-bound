@@ -54,31 +54,81 @@ def maximize(tableau, original=[], last_var_used=' ', best_solution=-1000000000,
             r_res = maximize(right, original, last_var_used, best_solution, var_size=var_size)
 
             if isinstance(r_res['result'], float) and r_res['result'] > highest:
+                result = r_res
                 highest = r_res['result']
 
         l_res = maximize(left, original, last_var_used, best_solution, var_size=var_size)
 
         if isinstance(l_res['result'], float) and l_res['result'] > highest:
-            highest = l_res['result']
-
-        result['result'] = highest
+            result = l_res
 
     return result
 
 
-def minimize(tableau):
+def minimize(tableau, original=[], last_var_used=' ', best_solution=1000000000, has_constraints_on=[], var_size=0):
     """Minimiza o PL com x1, x2, ..., xn inteiros"""
-    tableau = convert_to_min(tableau)
-    val = maximize(tableau)
-    val['result'] = val['result'] * -1
-    return val
+    lowest = 1000000000  # visto que int nao possui valor infinito
 
+    row_len = len(tableau[:, 0])
+    col_len = len(tableau[0, :])
+    if var_size == 0:
+        var_size = col_len - row_len
 
-def convert_to_min(tableau):
-    """Converte um tableau de minimização para um de maximzação"""
-    tableau[-1, :-1] = [-1 * i for i in tableau[-1, :-1]]
-    tableau[-1, -1] = -1 * tableau[-1, -1]
-    return tableau
+    s_var_size = row_len - 1
+
+    original = gen_original_matrix(tableau)
+
+    result = simplex_two_steps.minimize(tableau, var_size, s_var_size)
+
+    if isinstance(result['result'], float):
+        if best_solution == 1000000000:
+            best_solution = result['result']
+
+        if is_a_viable_solution(result):
+            return result
+
+        if not has_solution(result):
+            result['result'] = 'Solucao inviavel'
+            return result
+
+        # pega a proxima variavel a ser limitada
+        if last_var_used.isspace():
+            last_var_used = get_var(result['res_var'])
+        else:
+            last_var_used = get_var(result['res_var'], last_var_used)
+
+        num_last_var = int(last_var_used.replace('x', ''))
+
+        add_constrained_var(has_constraints_on, last_var_used)
+
+        # gera novas restricoes
+        var_value = result['res_var'][last_var_used]
+        r_const = generate_new_greater_constraint(num_last_var, var_size, var_value)
+        l_const = generate_new_lower_constraint(num_last_var, var_size, var_value)
+
+        original = evaluate_add_new_constraint(original, num_last_var)
+
+        # gera as novas tableaux
+        right = gen_bnb_matrix(original)
+        left = gen_bnb_matrix(original)
+
+        matrix_helper.insert_vector_constraint(right, r_const)
+        matrix_helper.insert_vector_constraint(left, l_const)
+
+        # gera dois novos galhos
+        r_res = minimize(right, original, last_var_used, best_solution, var_size=var_size)
+
+        if isinstance(r_res['result'], float) and r_res['result'] < lowest:
+            result = r_res
+            lowest = r_res['result']
+
+        if is_possible_left(result, best_solution):  # avalia se e possivel continuar para a esquerda
+            l_res = minimize(left, original, last_var_used, best_solution, var_size=var_size)
+
+            if isinstance(l_res['result'], float) and l_res['result'] < lowest:
+                result = l_res
+
+    return result
 
 
 def generate_new_greater_constraint(num_las_var, var_size, var_value):
@@ -166,13 +216,12 @@ def get_var(result, last_var=' '):
 def is_a_viable_solution(result):
     """Verifica se a solucao e viavel"""
     res = result['result']
+    res_var = result['res_var']
 
-    if isinstance(res, float) and res.is_integer() or isinstance(res, int):
+    if isinstance(res, float) and res.is_integer():
         for x in result['res_var']:
             if 'x' in x:
-                if isinstance(res, int):
-                    continue
-                elif result['res_var'][x].is_integer():
+                if isinstance(res_var[x], float) and res_var[x].is_integer():
                     continue
                 else:
                     return False
@@ -186,16 +235,27 @@ def is_possible_right(result, best):
     """Verifica se a solucao mais a direira e possivel"""
     res = result['result']
 
-    if isinstance(res, float) or isinstance(res, int):
+    if isinstance(res, float):
         if res != best:
-            if isinstance(res, int):
+            if res.is_integer():
                 if res + 1 > best:
                     return False
                 else:
                     return True
 
-            elif res.is_integer():
-                if res + 1 > best:
+        return True
+
+    return False
+
+
+def is_possible_left(result, best):
+    """Verifica se a solucao mais a esquerda e possivel"""
+    res = result['result']
+
+    if isinstance(res, float):
+        if res != best:
+            if res.is_integer():
+                if res - 1 < best:
                     return False
                 else:
                     return True
@@ -263,3 +323,14 @@ def evaluate_add_new_constraint(tableau, last_var):
         tableau = np.delete(tableau, col_to_delete, 1)
 
     return tableau
+
+
+def has_solution(result):
+    """Avalia se o resultado atual e uma solucao"""
+    pivot_vars = result['pivot_vars']
+
+    for v in pivot_vars:
+        if 'x' in v:
+            return True
+
+    return False
