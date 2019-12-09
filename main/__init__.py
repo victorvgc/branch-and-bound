@@ -57,6 +57,8 @@ if __name__ == '__main__':
     print(result['res_var'])
     print(result['result'])
 
+    # Branch and Bound minimizacao
+
     tableau = gen_matrix(2, 2)
 
     tableau = insert_constraint(tableau, '6,7,>=,40')

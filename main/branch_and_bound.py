@@ -4,6 +4,7 @@ from main import simplex_two_steps, matrix_helper
 
 
 def maximize(tableau, original=[], last_var_used=' ', best_solution=-1000000000, has_constraints_on=[], var_size=0):
+    """Maximiza o PL com x1, x2, ..., xn inteiros"""
     highest = -1000000000  # visto que int nao possui valor -infinito
 
     row_len = len(tableau[:, 0])
@@ -66,6 +67,7 @@ def maximize(tableau, original=[], last_var_used=' ', best_solution=-1000000000,
 
 
 def minimize(tableau):
+    """Minimiza o PL com x1, x2, ..., xn inteiros"""
     tableau = convert_to_min(tableau)
     val = maximize(tableau)
     val['result'] = val['result'] * -1
@@ -80,6 +82,7 @@ def convert_to_min(tableau):
 
 
 def generate_new_greater_constraint(num_las_var, var_size, var_value):
+    """Gera uma nova restricao de >= para o PL"""
     constraint = []
     for i in range(var_size):
         if i != num_las_var - 1:
@@ -99,6 +102,7 @@ def generate_new_greater_constraint(num_las_var, var_size, var_value):
 
 
 def generate_new_lower_constraint(num_las_var, var_size, var_value):
+    """Gera uma nova restricao de <= para  PL"""
     constraint = []
     for i in range(var_size):
         if i != num_las_var - 1:
@@ -119,6 +123,7 @@ def generate_new_lower_constraint(num_las_var, var_size, var_value):
 
 
 def gen_bnb_matrix(tableau):
+    """Gera um novo tableau para comportar a nova restricao"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     var_size = col_len - row_len
@@ -134,6 +139,7 @@ def gen_bnb_matrix(tableau):
 
 
 def gen_original_matrix(tableau):
+    """Copia tableau passado"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     var_size = col_len - row_len
@@ -145,6 +151,7 @@ def gen_original_matrix(tableau):
 
 
 def get_var(result, last_var=' '):
+    """Retorna a proxima variavel a ser restringida"""
     for v in result:
         if 'x' in v:
             if not last_var.isspace():
@@ -157,7 +164,7 @@ def get_var(result, last_var=' '):
 
 
 def is_a_viable_solution(result):
-    """verifica se a solucao e viavel"""
+    """Verifica se a solucao e viavel"""
     res = result['result']
 
     if isinstance(res, float) and res.is_integer() or isinstance(res, int):
@@ -176,6 +183,7 @@ def is_a_viable_solution(result):
 
 
 def is_possible_right(result, best):
+    """Verifica se a solucao mais a direira e possivel"""
     res = result['result']
 
     if isinstance(res, float) or isinstance(res, int):
@@ -198,6 +206,7 @@ def is_possible_right(result, best):
 
 
 def add_constrained_var(has_const_on, x):
+    """Adiciona xn ao vetor de controle de variaveis ja rstringidas"""
     for cx in has_const_on:
         if cx == x:
             return
@@ -206,6 +215,7 @@ def add_constrained_var(has_const_on, x):
 
 
 def find_constraint_row(tableau, x):
+    """Retorna a linha de restricao de x"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     var_size = col_len - row_len
@@ -232,6 +242,7 @@ def find_constraint_row(tableau, x):
 
 
 def find_constraint_col(row):
+    """Retorna a coluna de restricao da linha"""
     col_index = 0
 
     v = 0
@@ -244,6 +255,7 @@ def find_constraint_col(row):
 
 
 def evaluate_add_new_constraint(tableau, last_var):
+    """Avalia e remove restricoes desnecessarias"""
     row_to_delete = find_constraint_row(tableau, last_var)
     if row_to_delete['r'] != -1:
         col_to_delete = find_constraint_col(row_to_delete['t'])

@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
 <head>
     <meta charset="utf-8"/>
-    <title>Welcome to Branch and Bound’s documentation! &#8212; Documentação Branch and Bound </title>
+    <title>Branch and Bound’s documentation &#8212; Documentação Branch and Bound </title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css"/>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
     <script type="text/javascript" id="documentation_options" data-url_root="./"
@@ -15,6 +16,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <link rel="index" title="Índice" href="genindex.html"/>
     <link rel="search" title="Pesquisar" href="search.html"/>
+    <link rel="next" title="Como utilizar" href="usage/quickstart.html"/>
 
     <link rel="stylesheet" href="_static/custom.css" type="text/css"/>
 
@@ -32,25 +34,543 @@
 
             <div class="body" role="main">
 
-                <div class="section" id="welcome-to-branch-and-bound-s-documentation">
-                    <h1>Welcome to Branch and Bound’s documentation!<a class="headerlink"
-                                                                       href="#welcome-to-branch-and-bound-s-documentation"
-                                                                       title="Link permanente para este título">¶</a>
-                    </h1>
+                <div class="section" id="branch-and-bound-s-documentation">
+                    <h1>Branch and Bound’s documentation<a class="headerlink" href="#branch-and-bound-s-documentation"
+                                                           title="Link permanente para este título">¶</a></h1>
                     <div class="toctree-wrapper compound">
+                        <ul>
+                            <li class="toctree-l1"><a class="reference internal" href="usage/quickstart.html">Como
+                                utilizar</a>
+                                <ul>
+                                    <li class="toctree-l2"><a class="reference internal"
+                                                              href="usage/quickstart.html#simplex-comum">Simplex
+                                        comum</a>
+                                        <ul>
+                                            <li class="toctree-l3"><a class="reference internal"
+                                                                      href="usage/quickstart.html#maximizacao">Maximizacao</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="toctree-l2"><a class="reference internal"
+                                                              href="usage/quickstart.html#simplex-de-duas-fases">Simplex
+                                        de duas fases</a>
+                                        <ul>
+                                            <li class="toctree-l3"><a class="reference internal"
+                                                                      href="usage/quickstart.html#id1">Maximizacao</a>
+                                            </li>
+                                            <li class="toctree-l3"><a class="reference internal"
+                                                                      href="usage/quickstart.html#minimizacao">Minimizacao</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="toctree-l2"><a class="reference internal"
+                                                              href="usage/quickstart.html#branch-and-bound">Branch and
+                                        Bound</a>
+                                        <ul>
+                                            <li class="toctree-l3"><a class="reference internal"
+                                                                      href="usage/quickstart.html#id2">Maximizacao</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="section" id="indices-and-tables">
-                    <h1>Indices and tables<a class="headerlink" href="#indices-and-tables"
-                                             title="Link permanente para este título">¶</a></h1>
+                <div class="section" id="indices">
+                    <h1>Indices<a class="headerlink" href="#indices" title="Link permanente para este título">¶</a></h1>
                     <ul class="simple">
                         <li><p><a class="reference internal" href="genindex.html"><span
                                 class="std std-ref">Índice</span></a></p></li>
-                        <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Índice de Módulos</span></a>
-                        </p></li>
                         <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Página de Pesquisa</span></a>
                         </p></li>
                     </ul>
+                    <div class="section" id="module-main.simplex">
+                        <span id="simplex"></span>
+                        <h2>Simplex<a class="headerlink" href="#module-main.simplex"
+                                      title="Link permanente para este título">¶</a></h2>
+                        <dl class="function">
+                            <dt id="main.simplex.convert_to_min">
+                                <code class="sig-prename descclassname">main.simplex.</code><code
+                                    class="sig-name descname">convert_to_min</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.simplex.convert_to_min"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Converte um tableau de minimização para um de maximzação</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex.get_pivot_vars">
+                                <code class="sig-prename descclassname">main.simplex.</code><code
+                                    class="sig-name descname">get_pivot_vars</code><span class="sig-paren">(</span><em
+                                    class="sig-param">var</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                 href="#main.simplex.get_pivot_vars"
+                                                                                                 title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Retorna um vetor com o nome das variaveis que entraram na base</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex.get_vars">
+                                <code class="sig-prename descclassname">main.simplex.</code><code
+                                    class="sig-name descname">get_vars</code><span class="sig-paren">(</span><em
+                                    class="sig-param">var</em>, <em class="sig-param">s_var</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.simplex.get_vars"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna um vetor com o nome de todas as variaveis do PL</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex.maximize">
+                                <code class="sig-prename descclassname">main.simplex.</code><code
+                                    class="sig-name descname">maximize</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">var=0</em>, <em
+                                    class="sig-param">s_var=0</em>, <em class="sig-param">pivot_vars=[]</em>, <em
+                                    class="sig-param">is_two_steps=False</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.simplex.maximize"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Maximiza o PL inserido</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex.minimize">
+                                <code class="sig-prename descclassname">main.simplex.</code><code
+                                    class="sig-name descname">minimize</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">var</em>, <em
+                                    class="sig-param">s_var</em>, <em class="sig-param">pivot_vars=[]</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#main.simplex.minimize"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Minimiza o PL inserido invertendo os sinais para transformar em um problema de
+                                maximização</p>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-main.simplex_two_steps">
+                        <span id="simplex-de-duas-fases"></span>
+                        <h2>Simplex de duas fases<a class="headerlink" href="#module-main.simplex_two_steps"
+                                                    title="Link permanente para este título">¶</a></h2>
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.convert_to_min">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">convert_to_min</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.simplex_two_steps.convert_to_min"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Converte um tableau de minimização para um de maximzação</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.get_artificial_var_size">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">get_artificial_var_size</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em><span class="sig-paren">)</span>
+                                &#x2192; int<a class="headerlink" href="#main.simplex_two_steps.get_artificial_var_size"
+                                               title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna a quantidade de variaveis artificiais necessarias</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.insert_artificial_columns">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">insert_artificial_columns</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em>, <em class="sig-param">artificial_tableau</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.simplex_two_steps.insert_artificial_columns"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Insere as colunas das variaveis artificiais</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.insert_artificial_row">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">insert_artificial_row</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em>, <em class="sig-param">artificial_tableau</em>,
+                                <em class="sig-param">artificial_var_size</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.simplex_two_steps.insert_artificial_row"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Insere linha com a funcao artificial</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.maximize">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">maximize</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">var=0</em>, <em
+                                    class="sig-param">s_var=0</em><span class="sig-paren">)</span> &#x2192;
+                                numpy.array<a class="headerlink" href="#main.simplex_two_steps.maximize"
+                                              title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Maximiza o PL inserido utilizando duas fases, caso necessario</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.minimize">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">minimize</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">var=0</em>, <em
+                                    class="sig-param">s_var=0</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.simplex_two_steps.minimize"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Minimiza o PL inserido utilizando duas fases, caso necessario</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.remove_artificial_columns">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">remove_artificial_columns</code><span
+                                    class="sig-paren">(</span><em class="sig-param">artificial_tableau</em>, <em
+                                    class="sig-param">artificial_var_size</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.simplex_two_steps.remove_artificial_columns"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Remove as colunas com as variaveis artificiais</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.simplex_two_steps.remove_artificial_row">
+                                <code class="sig-prename descclassname">main.simplex_two_steps.</code><code
+                                    class="sig-name descname">remove_artificial_row</code><span
+                                    class="sig-paren">(</span><em class="sig-param">artificial_tableau</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.simplex_two_steps.remove_artificial_row"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Remove a linha com a funcao artificial</p>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-main.branch_and_bound">
+                        <span id="branch-and-bound"></span>
+                        <h2>Branch and Bound<a class="headerlink" href="#module-main.branch_and_bound"
+                                               title="Link permanente para este título">¶</a></h2>
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.add_constrained_var">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">add_constrained_var</code><span class="sig-paren">(</span><em
+                                    class="sig-param">has_const_on</em>, <em class="sig-param">x</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.add_constrained_var"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Adiciona xn ao vetor de controle de variaveis ja rstringidas</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.convert_to_min">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">convert_to_min</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.branch_and_bound.convert_to_min"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Converte um tableau de minimização para um de maximzação</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.evaluate_add_new_constraint">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">evaluate_add_new_constraint</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">last_var</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.evaluate_add_new_constraint"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Avalia e remove restricoes desnecessarias</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.find_constraint_col">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">find_constraint_col</code><span class="sig-paren">(</span><em
+                                    class="sig-param">row</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                 href="#main.branch_and_bound.find_constraint_col"
+                                                                                                 title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Retorna a coluna de restricao da linha</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.find_constraint_row">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">find_constraint_row</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">x</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.branch_and_bound.find_constraint_row"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna a linha de restricao de x</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.gen_bnb_matrix">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">gen_bnb_matrix</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.branch_and_bound.gen_bnb_matrix"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Gera um novo tableau para comportar a nova restricao</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.gen_original_matrix">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">gen_original_matrix</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.branch_and_bound.gen_original_matrix"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Copia tableau passado</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.generate_new_greater_constraint">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">generate_new_greater_constraint</code><span
+                                    class="sig-paren">(</span><em class="sig-param">num_las_var</em>, <em
+                                    class="sig-param">var_size</em>, <em class="sig-param">var_value</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.generate_new_greater_constraint"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Gera uma nova restricao de &gt;= para o PL</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.generate_new_lower_constraint">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">generate_new_lower_constraint</code><span
+                                    class="sig-paren">(</span><em class="sig-param">num_las_var</em>, <em
+                                    class="sig-param">var_size</em>, <em class="sig-param">var_value</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.generate_new_lower_constraint"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Gera uma nova restricao de &lt;= para PL</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.get_var">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">get_var</code><span class="sig-paren">(</span><em
+                                    class="sig-param">result</em>, <em class="sig-param">last_var=' '</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.get_var"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna a proxima variavel a ser restringida</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.is_a_viable_solution">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">is_a_viable_solution</code><span
+                                    class="sig-paren">(</span><em class="sig-param">result</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.is_a_viable_solution"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Verifica se a solucao e viavel</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.is_possible_right">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">is_possible_right</code><span
+                                    class="sig-paren">(</span><em class="sig-param">result</em>, <em class="sig-param">best</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#main.branch_and_bound.is_possible_right"
+                                                                 title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Verifica se a solucao mais a direira e possivel</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.maximize">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">maximize</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">original=[]</em>, <em
+                                    class="sig-param">last_var_used=' '</em>, <em class="sig-param">best_solution=-1000000000</em>,
+                                <em class="sig-param">has_constraints_on=[]</em>, <em
+                                    class="sig-param">var_size=0</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#main.branch_and_bound.maximize"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Maximiza o PL com x1, x2, …, xn inteiros</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.branch_and_bound.minimize">
+                                <code class="sig-prename descclassname">main.branch_and_bound.</code><code
+                                    class="sig-name descname">minimize</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                     href="#main.branch_and_bound.minimize"
+                                                                                                     title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Minimiza o PL com x1, x2, …, xn inteiros</p>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="module-main.matrix_helper">
+                        <span id="matrix-helper"></span>
+                        <h2>Matrix Helper<a class="headerlink" href="#module-main.matrix_helper"
+                                            title="Link permanente para este título">¶</a></h2>
+                        <dl class="function">
+                            <dt id="main.matrix_helper.can_insert_constraint">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">can_insert_constraint</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em><span class="sig-paren">)</span>
+                                &#x2192; bool<a class="headerlink" href="#main.matrix_helper.can_insert_constraint"
+                                                title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna True se o tableau pode receber uma restrição</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.can_insert_obj_fun">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">can_insert_obj_fun</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em><span class="sig-paren">)</span>
+                                &#x2192; bool<a class="headerlink" href="#main.matrix_helper.can_insert_obj_fun"
+                                                title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna True se o tableau pode receber a função objetivo</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.convert_string_to_constraint">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">convert_string_to_constraint</code><span
+                                    class="sig-paren">(</span><em class="sig-param">str_constraint</em><span
+                                    class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink"
+                                                                                      href="#main.matrix_helper.convert_string_to_constraint"
+                                                                                      title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Converte uma string num array de restrição</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.gen_matrix">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">gen_matrix</code><span class="sig-paren">(</span><em
+                                    class="sig-param">var_size</em>, <em class="sig-param">constraint_size</em>, <em
+                                    class="sig-param">artificial_var_size=0</em><span class="sig-paren">)</span>
+                                &#x2192; numpy.array<a class="headerlink" href="#main.matrix_helper.gen_matrix"
+                                                       title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Gera um tableau para o problema de otimização</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.get_pivot">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">get_pivot</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">is_two_steps=False</em><span
+                                    class="sig-paren">)</span> &#x2192; [&lt;class 'int'&gt;, &lt;class 'int'&gt;]<a
+                                    class="headerlink" href="#main.matrix_helper.get_pivot"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna as coordenadas do pivot</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.insert_constraint">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">insert_constraint</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em>, <em class="sig-param">constraint</em><span
+                                    class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink"
+                                                                                      href="#main.matrix_helper.insert_constraint"
+                                                                                      title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Insere uma restrição no tableau</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.insert_obj_fun">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">insert_obj_fun</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">str_obj_fun</em><span
+                                    class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink"
+                                                                                      href="#main.matrix_helper.insert_obj_fun"
+                                                                                      title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Insere a função objetivo no tableau</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.insert_vector_constraint">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">insert_vector_constraint</code><span
+                                    class="sig-paren">(</span><em class="sig-param">tableau</em>, <em class="sig-param">constraint</em><span
+                                    class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink"
+                                                                                      href="#main.matrix_helper.insert_vector_constraint"
+                                                                                      title="Link permanente para esta definição">¶</a>
+                            </dt>
+                            <dd><p>Insere uma restrição no tableau</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.next_iteration">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">next_iteration</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em><span class="sig-paren">)</span> &#x2192; bool<a
+                                    class="headerlink" href="#main.matrix_helper.next_iteration"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna True se necessario mais uma iteracao</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.pivot_around">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">pivot_around</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">p_row</em>, <em
+                                    class="sig-param">p_column</em><span class="sig-paren">)</span> &#x2192; int<a
+                                    class="headerlink" href="#main.matrix_helper.pivot_around"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Pivoteia em volta do pivo dado
+                                :param tableau:
+                                :param p_row:
+                                :param p_column:
+                                :return: -1 se impossivel</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="main.matrix_helper.pivot_r">
+                                <code class="sig-prename descclassname">main.matrix_helper.</code><code
+                                    class="sig-name descname">pivot_r</code><span class="sig-paren">(</span><em
+                                    class="sig-param">tableau</em>, <em class="sig-param">pivot_column</em>, <em
+                                    class="sig-param">min_div=0</em>, <em class="sig-param">is_two_steps=False</em><span
+                                    class="sig-paren">)</span> &#x2192; [&lt;class 'int'&gt;, &lt;class 'float'&gt;]<a
+                                    class="headerlink" href="#main.matrix_helper.pivot_r"
+                                    title="Link permanente para esta definição">¶</a></dt>
+                            <dd><p>Retorna a linha e a razao minima do possivel pivo</p>
+                            </dd>
+                        </dl>
+
+                    </div>
                 </div>
 
 
@@ -64,12 +584,16 @@
 
 
             <h3>Navegação</h3>
+            <ul>
+                <li class="toctree-l1"><a class="reference internal" href="usage/quickstart.html">Como utilizar</a></li>
+            </ul>
 
             <div class="relations">
                 <h3>Related Topics</h3>
                 <ul>
                     <li><a href="#">Documentation overview</a>
                         <ul>
+                            <li>Next: <a href="usage/quickstart.html" title="próximo capítulo">Como utilizar</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -94,7 +618,7 @@
     &copy;2019, Victor Carvalho.
 
     |
-    Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
     &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
 
     |

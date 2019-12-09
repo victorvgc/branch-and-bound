@@ -1,17 +1,41 @@
-.. Branch and Bound documentation master file, created by
-sphinx-quickstart on Sun Dec  1 12:39:44 2019.
-You can adapt this file completely to your liking, but it should at least
-contain the root `toctree` directive.
-
-Welcome to Branch and Bound's documentation!
+Branch and Bound's documentation
 ============================================
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 3
 
-Indices and tables
+    usage/quickstart
+
+Indices
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+
+==============
+Simplex
+==============
+
+.. automodule:: main.simplex
+    :members:
+
+===========================
+Simplex de duas fases
+===========================
+
+.. automodule:: main.simplex_two_steps
+    :members:
+
+=========================
+Branch and Bound
+=========================
+
+.. automodule:: main.branch_and_bound
+    :members:
+
+=======================
+Matrix Helper
+=======================
+
+.. automodule:: main.matrix_helper
+    :members:

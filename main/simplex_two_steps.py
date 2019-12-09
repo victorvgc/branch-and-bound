@@ -4,6 +4,7 @@ from main import matrix_helper, simplex
 
 
 def maximize(tableau, var=0, s_var=0) -> np.array:
+    """Maximiza o PL inserido utilizando duas fases, caso necessario"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     if var == 0:
@@ -42,6 +43,7 @@ def maximize(tableau, var=0, s_var=0) -> np.array:
 
 
 def minimize(tableau, var=0, s_var=0):
+    """Minimiza o PL inserido utilizando duas fases, caso necessario"""
     tableau = convert_to_min(tableau)
     val = maximize(tableau, var, s_var)
     val['result'] = val['result'] * -1
@@ -56,6 +58,7 @@ def convert_to_min(tableau):
 
 
 def get_artificial_var_size(tableau) -> int:
+    """Retorna a quantidade de variaveis artificiais necessarias"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     var_size = col_len - row_len
@@ -76,6 +79,7 @@ def get_artificial_var_size(tableau) -> int:
 
 
 def insert_artificial_row(tableau, artificial_tableau, artificial_var_size):
+    """Insere linha com a funcao artificial"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
     artificial_col_len = len(artificial_tableau[0, :])
@@ -106,6 +110,7 @@ def insert_artificial_row(tableau, artificial_tableau, artificial_var_size):
 
 
 def insert_artificial_columns(tableau, artificial_tableau):
+    """Insere as colunas das variaveis artificiais"""
     row_len = len(tableau[:, 0])
     col_len = len(tableau[0, :])
 
@@ -127,12 +132,14 @@ def insert_artificial_columns(tableau, artificial_tableau):
 
 
 def remove_artificial_row(artificial_tableau):
+    """Remove a linha com a funcao artificial"""
     artificial_tableau = np.delete(artificial_tableau, -1, 0)
 
     return artificial_tableau
 
 
 def remove_artificial_columns(artificial_tableau, artificial_var_size):
+    """Remove as colunas com as variaveis artificiais"""
     for i in range(artificial_var_size):
         artificial_tableau = np.delete(artificial_tableau, -2, 1)
 
